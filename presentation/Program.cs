@@ -175,7 +175,7 @@ namespace presentation
             new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen" };
         }
 
-        static void Rewards()
+        static void Requires()
         {
             new Requires() { room = "A2", item = "pen" };
             
