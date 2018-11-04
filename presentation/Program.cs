@@ -59,7 +59,7 @@ namespace presentation
         {
             char[] currentRoom = new char[] { 'A', '1' };
 
-            Rooms[] direction = new Rooms[] //create empty array to pass through with ref
+            Rooms[] rooms = new Rooms[] //create empty array to pass through with ref
             {
                new Rooms(){ room = "", up = false, down = false, right = false, left = false }
             };
@@ -82,17 +82,17 @@ namespace presentation
                 new Questions(){ room = null, question = null, answer = ' ', answered = false }
             };
 
-            OpenFile(player);
-            PopulateArrays(ref direction, ref items, ref questions, ref roomRequires); //build initial room direction array
-            moveRoom(currentRoom, direction, items, questions, roomRequires);
+            OpenFile(player, currentRoom);
+            PopulateArrays(ref rooms, ref items, ref questions, ref roomRequires); //build initial room direction array
+            moveRoom(currentRoom, rooms, items, questions, roomRequires);
             WriteFile(player, currentRoom);
             Console.ReadLine();
         }
 
-        static void PopulateArrays(ref Rooms[] direction, ref Items[] items, ref Questions[] questions, ref Requires[] roomRequires)
+        static void PopulateArrays(ref Rooms[] rooms, ref Items[] items, ref Questions[] questions, ref Requires[] roomRequires)
         {
 
-            direction = new Rooms[] //create empty array to pass through with ref
+            rooms = new Rooms[] //create empty array to pass through with ref
             {
                new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "Description goes here"},
                new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "Description goes here" },
@@ -127,12 +127,13 @@ namespace presentation
 #endif
         }
 
-        static void OpenFile(Player[] player)
+        static void OpenFile(Player[] player, char[] currentRoom)
         {
             string curFile = @"save.txt";
             if (!File.Exists(curFile))
             {
                 StreamWriter sw = new StreamWriter(curFile);
+                sw.WriteLine("100, A1, false, false, false, false, false");
                 sw.Close();
             }
             StreamReader sr = new StreamReader(curFile);
@@ -141,33 +142,75 @@ namespace presentation
             string[] stats = temp.Split(',');
 
             player[0].health = Convert.ToInt32(stats[0]);
-            player[0].room = stats[1];
+            player[0].room = stats[1].Trim(' ');
             player[0].torch = Convert.ToBoolean(stats[2]);
             player[0].hammer = Convert.ToBoolean(stats[3]);
             player[0].key = Convert.ToBoolean(stats[4]);
             player[0].pen = Convert.ToBoolean(stats[5]);
             player[0].diploma = Convert.ToBoolean(stats[6]);
-            //Console.WriteLine();
+            currentRoom[0] = Convert.ToChar(stats[1].Substring(0,1));
+            currentRoom[1] = Convert.ToChar(stats[1].Substring(1,1));
 
         }
 
         static void WriteFile(Player[] player, char[] currentRoom)
         {
             string room = Convert.ToString(currentRoom[0]) + currentRoom[1];
-            Console.WriteLine(room);
-            Console.ReadLine();
             string curFile = @"save.txt";
             StreamWriter sw = new StreamWriter(curFile);
-            string saveLine = player[0].health + ", " + player[0].room + ", " + player[0].torch + ", " + player[0].hammer + ", " + player[0].key + ", " + player[0].pen + ", " + player[0].diploma;
+            string saveLine = player[0].health + "," + player[0].room + "," + player[0].torch + "," + player[0].hammer + "," + player[0].key + "," + player[0].pen + "," + player[0].diploma;
             sw.WriteLine(saveLine);
             sw.Close();
         }
 
-        static void moveRoom(char[] currentRoom, Rooms[] direction, Items[] items, Questions[] questions, Requires[] roomRequires)
+        static void moveRoom(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires)
         {
             char x = currentRoom[0];
             char y = currentRoom[1];
-            Console.WriteLine(x + "-" + y);
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            Console.WriteLine("You are currently in room " + room + ". " + rooms[z].description);
+            Console.Write("You can move ");
+            if (rooms[z].up) Console.Write("(u)p ");
+            if (rooms[z].down) Console.Write("(d)own ");
+            if (rooms[z].left) Console.Write("(l)eft ");
+            if (rooms[z].right) Console.Write("(r)ight ");
+            Console.WriteLine();
+            Console.WriteLine("What would you like to do?");
+            char a = Console.ReadKey().KeyChar;
+            switch (a)
+            {
+                case 'u':
+                    if (!rooms[z].up) break;
+                    currentRoom[0]--;
+                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        static bool CanMoveIntoRoom(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires)
+        {
+
+            return false;
+        }
+
+        static int FindRoom(string room, Rooms[] rooms)
+        {
+            for (int i = 0; i < rooms.Length; i++)
+            {
+                if (rooms[i].room == room)
+                {
+                    return i;
+                }
+            }
+            return 99;
+        }
+
+        static char selection(int z, Rooms[] rooms)
+        {
+            return ' ';
         }
 
         static void QuestionsJonas()
