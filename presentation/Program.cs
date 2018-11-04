@@ -8,8 +8,16 @@ namespace presentation
 {
     class Program
     {
-        static void Main(string[] args)
+        public struct FileList
         {
+            public string fName;
+            public string lName;
+            public string interest;
+        }
+
+        static void Main()
+        {
+
         }
     }
 }
