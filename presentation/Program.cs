@@ -82,9 +82,10 @@ namespace presentation
                 new Questions(){ room = null, question = null, answer = ' ', answered = false }
             };
 
-            OpenFile(player, currentRoom);
             PopulateArrays(ref rooms, ref items, ref questions, ref roomRequires); //build initial room direction array
-            moveRoom(currentRoom, rooms, items, questions, roomRequires);
+            OpenFile(player, currentRoom);
+            //moveRoom(currentRoom, rooms, items, questions, roomRequires);
+            Menu(currentRoom, rooms, items, questions, roomRequires, player);
             WriteFile(player, currentRoom);
             Console.ReadLine();
         }
@@ -114,13 +115,19 @@ namespace presentation
 
             roomRequires = new Requires[] //@TODO: Room requrements go here
             {
-                new Requires(){ room = "A2", item = "pen"},
+                new Requires(){ room = "A2", item = "torch"},
             };
 
             questions = new Questions[]
             {
                 new Questions(){ room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen"}
             };
+
+            items = new Items[]
+            {
+                new Items() {room = "A1", torch = true }
+            };
+
             Console.WriteLine(questions[0].question);
 #if DEBUG
             Console.ReadLine();
@@ -130,7 +137,7 @@ namespace presentation
         static void OpenFile(Player[] player, char[] currentRoom)
         {
             string curFile = @"save.txt";
-            if (!File.Exists(curFile))
+            if (!File.Exists(curFile)) // If file doesn't exist, create a new save file
             {
                 StreamWriter sw = new StreamWriter(curFile);
                 sw.WriteLine("100, A1, false, false, false, false, false");
@@ -148,6 +155,8 @@ namespace presentation
             player[0].key = Convert.ToBoolean(stats[4]);
             player[0].pen = Convert.ToBoolean(stats[5]);
             player[0].diploma = Convert.ToBoolean(stats[6]);
+
+            // Gets the saved room and loads it into the current room
             currentRoom[0] = Convert.ToChar(stats[1].Substring(0,1));
             currentRoom[1] = Convert.ToChar(stats[1].Substring(1,1));
 
@@ -169,25 +178,7 @@ namespace presentation
             char y = currentRoom[1];
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
-            Console.WriteLine("You are currently in room " + room + ". " + rooms[z].description);
-            Console.Write("You can move ");
-            if (rooms[z].up) Console.Write("(u)p ");
-            if (rooms[z].down) Console.Write("(d)own ");
-            if (rooms[z].left) Console.Write("(l)eft ");
-            if (rooms[z].right) Console.Write("(r)ight ");
-            Console.WriteLine();
-            Console.WriteLine("What would you like to do?");
-            char a = Console.ReadKey().KeyChar;
-            switch (a)
-            {
-                case 'u':
-                    if (!rooms[z].up) break;
-                    currentRoom[0]--;
-                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires));
-                    break;
-                default:
-                    break;
-            }
+            
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires)
@@ -208,9 +199,92 @@ namespace presentation
             return 99;
         }
 
+        static void Menu(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires, Player[] player)
+        {
+            char x = currentRoom[0];
+            char y = currentRoom[1];
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            Console.Clear();
+            Console.WriteLine("You are currently in room " + room + ". " + rooms[z].description);
+            Console.Write("You can move ");
+            if (rooms[z].up) Console.Write("(u)p ");
+            if (rooms[z].down) Console.Write("(d)own ");
+            if (rooms[z].left) Console.Write("(l)eft ");
+            if (rooms[z].right) Console.Write("(r)ight ");
+
+            Console.WriteLine("What would you like to do (press h for help) ? ");
+            char a = Console.ReadKey().KeyChar;
+            a = char.ToLower(a);
+            switch (a)
+            {
+                case 'h':
+                    Console.Clear();
+                    DisplayHelp();
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    break;
+                case 'u':
+                    if (!rooms[z].up)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid move. Please try again.");
+                        Console.ReadLine();
+                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    }
+                    currentRoom[0]--;
+                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires));
+                    break;
+                case 'd':
+                    if (!rooms[z].down)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid move. Please try again.");
+                        Console.ReadLine();
+                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    }
+                    currentRoom[0]++;
+                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires));
+                    break;
+                case 'l':
+                    if (!rooms[z].left)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid move. Please try again.");
+                        Console.ReadLine();
+                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    }
+                    currentRoom[1]--;
+                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires)) ;
+                    break;
+                case 'r':
+                    if (!rooms[z].right)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Invalid move. Please try again.");
+                        Console.ReadLine();
+                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    }
+                    currentRoom[1]++;
+                    if (CanMoveIntoRoom(currentRoom, rooms, items, questions, roomRequires)) ;
+                    break;
+                case 's':
+                    WriteFile(player, currentRoom);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         static char selection(int z, Rooms[] rooms)
         {
             return ' ';
+        }
+
+        static void DisplayHelp()
+        {
+            Console.WriteLine("Press either u, d, l, r to move in a direction.");
+            Console.WriteLine("Press s to save, l to look in the room and p to pick up the item");
         }
 
         static void QuestionsJonas()
