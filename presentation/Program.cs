@@ -19,16 +19,6 @@ namespace presentation
             public string description;
         }
 
-        public struct Items
-        {
-            public string room;
-            public bool torch;
-            public bool hammer;
-            public bool key;
-            public bool pen;
-            public bool diploma;
-        }
-
         public struct Player
         {
             public int health;
@@ -64,11 +54,6 @@ namespace presentation
                new Rooms(){ room = "", up = false, down = false, right = false, left = false }
             };
 
-            Items[] items = new Items[] //create empty array to pass through with ref
-            {
-               new Items(){ room = "", torch = false, hammer = false, key = false, pen = false, diploma = false }
-            };
-
             Requires[] roomRequires = new Requires[] //create empty array to pass through with ref
             {
                new Requires(){ room = null, item = null }
@@ -82,15 +67,15 @@ namespace presentation
                 new Questions(){ room = null, question = null, answer = ' ', answered = false }
             };
 
-            PopulateArrays(ref rooms, ref items, ref questions, ref roomRequires); //build initial room direction array
+            PopulateArrays(ref rooms, ref questions, ref roomRequires); //build initial room direction array
             OpenFile(player, currentRoom);
             //moveRoom(currentRoom, rooms, items, questions, roomRequires);
-            Menu(currentRoom, rooms, items, questions, roomRequires, player);
+            Menu(currentRoom, rooms, questions, roomRequires, player);
             WriteFile(player, currentRoom);
             //Console.ReadLine();
         }
 
-        static void PopulateArrays(ref Rooms[] rooms, ref Items[] items, ref Questions[] questions, ref Requires[] roomRequires)
+        static void PopulateArrays(ref Rooms[] rooms, ref Questions[] questions, ref Requires[] roomRequires)
         {
 
             rooms = new Rooms[] //create empty array to pass through with ref
@@ -122,11 +107,6 @@ namespace presentation
             questions = new Questions[]
             {
                 new Questions(){ room = "B1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"}
-            };
-
-            items = new Items[]
-            {
-                new Items() {room = "A1", torch = true }
             };
 
             Console.WriteLine(questions[0].question);
@@ -173,7 +153,7 @@ namespace presentation
             sw.Close();
         }
 
-        static void moveRoom(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires)
+        static void moveIntoRoom(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires)
         {
             char x = currentRoom[0];
             char y = currentRoom[1];
@@ -182,7 +162,7 @@ namespace presentation
             
         }
 
-        static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires, Player[] player)
+        static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
             char x = currentRoom[0];
             char y = currentRoom[1];
@@ -273,7 +253,7 @@ namespace presentation
             return 99;
         }
 
-        static void Menu(char[] currentRoom, Rooms[] rooms, Items[] items, Questions[] questions, Requires[] roomRequires, Player[] player)
+        static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
             char x = currentRoom[0];
             char y = currentRoom[1];
@@ -297,7 +277,7 @@ namespace presentation
                     Console.Clear();
                     DisplayHelp();
                     Console.ReadLine();
-                    Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                     break;
                 case 'u':
                     Console.Clear();
@@ -305,11 +285,12 @@ namespace presentation
                     {
                         Console.WriteLine("Invalid move. Please try again.");
                         Console.ReadLine();
-                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                     newRoom[0]--;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, items, questions, roomRequires, player))
+                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
+                        moveIntoRoom(newRoom, rooms, questions, roomRequires);
                         Console.WriteLine("YES");
                     }
                     else
@@ -323,10 +304,10 @@ namespace presentation
                     {
                         Console.WriteLine("Invalid move. Please try again.");
                         Console.ReadLine();
-                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                     newRoom[0]++;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, items, questions, roomRequires, player))
+                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
                         Console.WriteLine("YES");
                     }
@@ -341,10 +322,10 @@ namespace presentation
                     {
                         Console.WriteLine("Invalid move. Please try again.");
                         Console.ReadLine();
-                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                     newRoom[1]--;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, items, questions, roomRequires, player))
+                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
                         Console.WriteLine("YES");
                     }
@@ -359,28 +340,26 @@ namespace presentation
                     {
                         Console.WriteLine("Invalid move. Please try again.");
                         Console.ReadLine();
-                        Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                     newRoom[1]++;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, items, questions, roomRequires, player))
+                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
+                        moveIntoRoom(newRoom, rooms, questions, roomRequires);
                         Console.WriteLine("YES");
                     } else
                     {
-                        Console.WriteLine("NO");
+                        Console.WriteLine("You can't go into that room at this time.");
                     }
                     break;
                 case 's':
                     WriteFile(player, currentRoom);
-                    Menu(currentRoom, rooms, items, questions, roomRequires, player);
-                    break;
-                case 'p':
-                    Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                     break;
                 case 'e':
                     break;
                 default:
-                    Menu(currentRoom, rooms, items, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                     break;
             }
             Console.ReadLine();
@@ -394,7 +373,7 @@ namespace presentation
         static void DisplayHelp()
         {
             Console.WriteLine("Press either u, d, l, r to move in a direction.");
-            Console.WriteLine("\ts to save\n\tp to pick up the item\n\te to exit");
+            Console.WriteLine("\ts to save\n\te to exit");
         }
 
         static void QuestionsJonas()
