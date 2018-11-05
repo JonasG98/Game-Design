@@ -170,66 +170,79 @@ namespace presentation
             int z = FindRoom(room, rooms);
             string question = questions[z].question;
             Console.WriteLine(questions[z].answered);
+
             if (!questions[z].answered)
             {
-                Console.WriteLine(question);
-                char response = Console.ReadKey().KeyChar;
-                if (response == questions[z].answer)
+
+                if (x == 'A' && y == '4')
                 {
-                    Console.WriteLine("Congratulations, you got the question correct.");
-                    if (questions[z].reward != null)
-                    {
-                        switch (questions[z].reward)
-                        {
-                            case "torch":
-                                player[0].torch = true;
-                                break;
-                            case "pen":
-                                player[0].pen = true;
-                                break;
-                            case "hammer":
-                                player[0].hammer = true;
-                                break;
-                            case "key":
-                                player[0].key = true;
-                                break;
-                            case "diploma":
-                                player[0].diploma = true;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    questions[z].answered = true;
-                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                    Console.WriteLine("special Room");
                 }
                 else
                 {
-                    Console.WriteLine("You got it wrong. you loose 25 health");
-                    player[0].health = player[0].health - 25;
-                    if (player[0].health < 1)
+
+                    Console.WriteLine(question);
+                    char response = Console.ReadKey().KeyChar;
+                    if (response == questions[z].answer)
                     {
-                        //You died
-                        Console.WriteLine("You died. Please try again");
-                        Console.ReadLine();
-                        player[0].health = 100;
-                        currentRoom[0] = 'A';
-                        currentRoom[1] = '1';
-                        for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+                        Console.WriteLine("Congratulations, you got the question correct.");
+                        if (questions[z].reward != null)
                         {
-                            if (questions[i].question != null)
+                            switch (questions[z].reward)
                             {
-                                questions[i].answered = false;
+                                case "torch":
+                                    player[0].torch = true;
+                                    break;
+                                case "pen":
+                                    player[0].pen = true;
+                                    break;
+                                case "hammer":
+                                    player[0].hammer = true;
+                                    break;
+                                case "key":
+                                    player[0].key = true;
+                                    break;
+                                case "diploma":
+                                    player[0].diploma = true;
+                                    break;
+                                default:
+                                    break;
                             }
                         }
-                        WriteFile(player, currentRoom);
+                        questions[z].answered = true;
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
+                    else
+                    {
+                        Console.WriteLine("You got it wrong. you loose 25 health");
+                        player[0].health = player[0].health - 25;
+                    }
                 }
-            } else
+
+                if (player[0].health < 1)
+                {
+                    //You died
+                    Console.WriteLine("You died. Please try again");
+                    Console.ReadLine();
+                    player[0].health = 100;
+                    currentRoom[0] = 'A';
+                    currentRoom[1] = '1';
+                    for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+                    {
+                        if (questions[i].question != null)
+                        {
+                            questions[i].answered = false;
+                        }
+                    }
+                    WriteFile(player, currentRoom);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+            }
+            else
             {
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
+
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
