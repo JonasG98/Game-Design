@@ -472,12 +472,6 @@ namespace presentation
             Console.WriteLine("\ts to save\n\te to exit");
         }
 
-        static void QuestionsJonas()
-        {
-
-
-        }
-
         static void Requires1()
         {
             new Requires() { room = "A2", item = "pen" };
