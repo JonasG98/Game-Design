@@ -69,7 +69,6 @@ namespace presentation
 
             PopulateArrays(ref rooms, ref questions, ref roomRequires); //build initial room direction array
             OpenFile(player, currentRoom);
-            //moveRoom(currentRoom, rooms, items, questions, roomRequires);
             Menu(currentRoom, rooms, questions, roomRequires, player);
             WriteFile(player, currentRoom);
             //Console.ReadLine();
@@ -106,7 +105,12 @@ namespace presentation
 
             questions = new Questions[]
             {
-                new Questions(){ room = "B1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"}
+                new Questions(){ room = "A1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"},
+                new Questions(){ room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "A3", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "A4", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "B1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "B2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""}
             };
 
             Console.WriteLine(questions[0].question);
@@ -159,7 +163,9 @@ namespace presentation
             char y = currentRoom[1];
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
-            
+            Console.WriteLine(z);
+            string question = questions[z].question;
+            Console.WriteLine(question);
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
@@ -346,7 +352,6 @@ namespace presentation
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
                         moveIntoRoom(newRoom, rooms, questions, roomRequires);
-                        Console.WriteLine("YES");
                     } else
                     {
                         Console.WriteLine("You can't go into that room at this time.");
@@ -378,7 +383,7 @@ namespace presentation
 
         static void QuestionsJonas()
         {
-            new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen" };
+            new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen", answered = false };
         }
 
         static void Requires1()
