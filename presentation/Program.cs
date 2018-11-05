@@ -80,21 +80,21 @@ namespace presentation
             rooms = new Rooms[] //create empty array to pass through with ref
             {
                new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "You are at the entrance of the cave."},
-               new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "Description goes here" },
+               new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "It's a dead end. 'You must answer a question to obtain a useful item' is written on the wall." },
                new Rooms(){ room = "A3", up = true, down = true, right = true, left = false, description = "There are two ways. Head North or turn South?" },
                new Rooms(){ room = "A4", up = true, down = false, right = false, left = false, description = "There's a sheet of paper on top of the stone. You might need a pen." },
                new Rooms(){ room = "B1", up = false, down = false, right = true, left = true, description = "A torch is on the ground." },
-               new Rooms(){ room = "B2", up = false, down = true, right = true, left = false, description = "Description goes here" },
+               new Rooms(){ room = "B2", up = false, down = true, right = true, left = false, description = "To move ahead through the cave, you must answer a question correctly." },
                new Rooms(){ room = "B3", up = true, down = true, right = false, left = true, description = "There are two ways. Continue North or turn East?" },
-               new Rooms(){ room = "B4", up = true, down = false, right = true, left = false, description = "Description goes here" },
+               new Rooms(){ room = "B4", up = true, down = false, right = true, left = false, description = "To continue on, you must answer a question correctly." },
                new Rooms(){ room = "C1", up = false, down = false, right = true, left = true, description = "You are currently in a very dark area. It's very hard to see." },
-               new Rooms(){ room = "C2", up = false, down = false, right = true, left = true, description = "Description goes here" },
-               new Rooms(){ room = "C3", up = false, down = true, right = false, left = false, description = "Description goes here" },
+               new Rooms(){ room = "C2", up = false, down = false, right = true, left = true, description = "There's only one way ahead. But you need to correctly answer a question to continue." },
+               new Rooms(){ room = "C3", up = false, down = true, right = false, left = false, description = "Congratulations! You have answered all questions correctly and collected important items. You have finally found a BIT Diploma!" },
                new Rooms(){ room = "C4", up = true, down = false, right = true, left = true, description = "There's a door. You need a key to remove the lock." },
-               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "Description goes here" },
+               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "To continue on, you must answer this question correctly." },
                new Rooms(){ room = "D2", up = true, down = true, right = false, left = true, description = "There are two ways. Continue North or turn East?" },
                new Rooms(){ room = "D3", up = true, down = true, right = false, left = false, description = "It's a dead end. But one wall looks different." },
-               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "Description goes here" }
+               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "You have successfully break down the wall. Here's a pen to answer your exam. Goodluck!" }
             };
 
             roomRequires = new Requires[] //@TODO: Room requrements go here
