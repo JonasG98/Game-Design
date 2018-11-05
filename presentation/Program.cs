@@ -100,12 +100,21 @@ namespace presentation
             roomRequires = new Requires[] //@TODO: Room requrements go here
             {
                 new Requires(){ room = "A1", item = null},
-                new Requires(){ room = "A2", item = null},
-                new Requires(){ room = "A3", item = null},
-                new Requires(){ room = "A4", item = null},
-                new Requires(){ room = "B1", item = null},
-                new Requires(){ room = "B2", item = null},
-                new Requires(){ room = "B3", item = null},
+                new Requires(){ room = "A2", item = null },
+                new Requires(){ room = "A3", item = null },
+                new Requires(){ room = "A4", item = "pen" },
+                new Requires(){ room = "B1", item = null },
+                new Requires(){ room = "B2", item = null },
+                new Requires(){ room = "B3", item = null },
+                new Requires(){ room = "B4", item = null },
+                new Requires(){ room = "C1", item = null },
+                new Requires(){ room = "C2", item = null },
+                new Requires(){ room = "C3", item = null },
+                new Requires(){ room = "C4", item = null },
+                new Requires(){ room = "D1", item = null },
+                new Requires(){ room = "D2", item = null },
+                new Requires(){ room = "D3", item = null },
+                new Requires(){ room = "D4", item = null }
             };
 
             questions = new Questions[]
