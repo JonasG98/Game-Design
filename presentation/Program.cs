@@ -110,12 +110,22 @@ namespace presentation
 
             questions = new Questions[]
             {
-                new Questions(){ room = "A1", answered = true},
-                new Questions(){ room = "A2", question = "a2What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
-                new Questions(){ room = "A3", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
-                new Questions(){ room = "A4", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
-                new Questions(){ room = "B1", question = "b1What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"},
-                new Questions(){ room = "B2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""}
+                new Questions() { room = "A1", answered = true },
+                new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - A denial of service attack\n\tb - A phishing attack\n\tb - A information intercepting attack\n\tb - A denial of server attack", answer = 'a', reward = "hammer", answered = false },
+                new Questions() { room = "A3", answered = true },
+                new Questions() { room = "A4", question = "Three Question Exam", answer = 'a', reward = "key", answered = false },
+                new Questions() { room = "B1", question = "do you want the torch? y for yes, n for no", answer = 'y', reward = "torch", answered = true },
+                new Questions() { room = "B2", question = "What is the frist stage of group work?\n\ta - Storming\n\tb - Forming\n\tb - Norming\n\tb - Performing", answer = 'b', answered = false },
+                new Questions() { room = "B3", answered = true },
+                new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tb - 8x^2+16x+64\n\tb - Not Expandable", answer = 'a', answered = false },
+                new Questions() { room = "C1", answered = true },
+                new Questions() { room = "C2", question = "How do you print Hello World out to the screen in C#?\n\ta - Console.ReadLine(Hello World);\n\tb - Console.Read(Hello World);\n\tb - Console.WriteLine(Hello World);\n\tb - WriteOut(Hello World);", answer = 'c', answered = false },
+                new Questions() { room = "C3", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tb - Session\n\tb - Transport", answer = 'c', answered = false },
+                new Questions() { room = "C4", question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false },
+                new Questions() { room = "D1", question = "What does BIOS stand for?\n\ta - Basic input output system\n\tb - Basic information on system\n\tb - Basic integrated output system\n\tb - Basic isolated operating system", answer = 'a', answered = false },
+                new Questions() { room = "D2", answered = true },
+                new Questions() { room = "D3", answered = true },
+                new Questions() { room = "D4", question = "Under which conditions will this code run: if ((x<5) && (x>2))\n\ta - Both statements need to be true\n\tb - Both statements need to be false\n\tb - One statement only has to be right\n\tb - it will never run", answer = 'a', reward = "pen", answered = false }
             };
 
             Console.WriteLine(questions[0].question);
@@ -455,22 +465,7 @@ namespace presentation
 
         static void QuestionsJonas()
         {
-            new Questions() { room = "A1", answered = true };
-            new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - A denial of service attack\n\tb - A phishing attack\n\tb - A information intercepting attack\n\tb - A denial of server attack", answer = 'a', reward = "hammer", answered = false };
-            new Questions() { room = "A3", answered = true };
-            new Questions() { room = "A4", question = "Three Question Exam", answer = 'a', reward = "key", answered = false };
-            new Questions() { room = "B1", reward = "torch", answered = true };
-            new Questions() { room = "B2", question = "What is the frist stage of group work?\n\ta - Storming\n\tb - Forming\n\tb - Norming\n\tb - Performing", answer = 'b', answered = false };
-            new Questions() { room = "B3", answered = true };
-            new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tb - 8x^2+16x+64\n\tb - Not Expandable", answer = 'a', answered = false };
-            new Questions() { room = "C1", answered = true };
-            new Questions() { room = "C2", question = "How do you print Hello World out to the screen in C#?\n\ta - Console.ReadLine(Hello World);\n\tb - Console.Read(Hello World);\n\tb - Console.WriteLine(Hello World);\n\tb - WriteOut(Hello World);", answer = 'c', answered = false };
-            new Questions() { room = "C3", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tb - Session\n\tb - Transport", answer = 'c',  answered = false };
-            new Questions() { room = "C4", question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false };
-            new Questions() { room = "D1", question = "What does BIOS stand for?\n\ta - Basic input output system\n\tb - Basic information on system\n\tb - Basic integrated output system\n\tb - Basic isolated operating system", answer = 'a', answered = false };
-            new Questions() { room = "D2", answered = true };
-            new Questions() { room = "D3", answered = true };
-            new Questions() { room = "D4", question = "Under which conditions will this code run: if ((x<5) && (x>2))\n\ta - Both statements need to be true\n\tb - Both statements need to be false\n\tb - One statement only has to be right\n\tb - it will never run", answer = 'a', reward = "pen", answered = false };
+
 
         }
 
