@@ -125,7 +125,7 @@ namespace presentation
             if (!File.Exists(curFile)) // If file doesn't exist, create a new save file
             {
                 StreamWriter sw = new StreamWriter(curFile);
-                sw.WriteLine("100, A1, false, false, false, false, false");
+                sw.WriteLine("100,A1,false,false,false,false,false");
                 sw.Close();
             }
             StreamReader sr = new StreamReader(curFile);
