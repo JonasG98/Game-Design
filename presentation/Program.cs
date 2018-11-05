@@ -139,7 +139,7 @@ namespace presentation
             string[] stats = temp.Split(',');
 
             player[0].health = Convert.ToInt32(stats[0]);
-            player[0].room = stats[1].Trim(' ');
+            player[0].room = stats[1].TrimEnd(' ').TrimStart(' ');
             player[0].torch = Convert.ToBoolean(stats[2]);
             player[0].hammer = Convert.ToBoolean(stats[3]);
             player[0].key = Convert.ToBoolean(stats[4]);
@@ -168,41 +168,67 @@ namespace presentation
             char y = currentRoom[1];
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
-            Console.WriteLine(z);
             string question = questions[z].question;
-            Console.WriteLine(question);
-            char response = Console.ReadKey().KeyChar;
-            if (response == questions[z].answer)
+            Console.WriteLine(questions[z].answered);
+            if (!questions[z].answered)
             {
-                Console.WriteLine("Congratulations, you got the question correct.");
-                if (questions[z].reward != null)
+                Console.WriteLine(question);
+                char response = Console.ReadKey().KeyChar;
+                if (response == questions[z].answer)
                 {
-                    switch (questions[z].reward)
+                    Console.WriteLine("Congratulations, you got the question correct.");
+                    if (questions[z].reward != null)
                     {
-                        case "torch":
-                            player[0].torch = true;
-                            break;
-                        case "pen":
-                            player[0].pen = true;
-                            break;
-                        case "hammer":
-                            player[0].hammer = true;
-                            break;
-                        case "key":
-                            player[0].key = true;
-                            break;
-                        case "diploma":
-                            player[0].diploma = true;
-                            break;
-                        default:
-                            break;
+                        switch (questions[z].reward)
+                        {
+                            case "torch":
+                                player[0].torch = true;
+                                break;
+                            case "pen":
+                                player[0].pen = true;
+                                break;
+                            case "hammer":
+                                player[0].hammer = true;
+                                break;
+                            case "key":
+                                player[0].key = true;
+                                break;
+                            case "diploma":
+                                player[0].diploma = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    questions[z].answered = true;
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You got it wrong. you loose 25 health");
+                    player[0].health = player[0].health - 25;
+                    if (player[0].health < 1)
+                    {
+                        //You died
+                        Console.WriteLine("You died. Please try again");
+                        Console.ReadLine();
+                        player[0].health = 100;
+                        currentRoom[0] = 'A';
+                        currentRoom[1] = '1';
+                        for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+                        {
+                            if (questions[i].question != null)
+                            {
+                                questions[i].answered = false;
+                            }
+                        }
+                        WriteFile(player, currentRoom);
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                 }
-                Menu(currentRoom, rooms, questions, roomRequires, player);
-            }
-            else
+            } else
             {
-                Console.WriteLine("You got it wrong. you loose 25 health");
+                Menu(currentRoom, rooms, questions, roomRequires, player);
             }
         }
 
@@ -330,7 +356,6 @@ namespace presentation
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
                         MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
-                        Console.WriteLine("YES");
                     }
                     else
                     {
@@ -348,7 +373,7 @@ namespace presentation
                     newRoom[1]++;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        Console.WriteLine("YES");
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
                     {
@@ -366,7 +391,7 @@ namespace presentation
                     newRoom[0]--;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        Console.WriteLine("YES");
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
                     {
@@ -384,8 +409,6 @@ namespace presentation
                     newRoom[0]++;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        Console.WriteLine("YES");
-                        Console.ReadLine();
                         MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
