@@ -79,22 +79,22 @@ namespace presentation
 
             rooms = new Rooms[] //create empty array to pass through with ref
             {
-               new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "Description goes here"},
-               new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "Description goes here" },
-               new Rooms(){ room = "A3", up = true, down = true, right = true, left = false, description = "Description goes here" },
-               new Rooms(){ room = "A4", up = true, down = false, right = false, left = false, description = "Description goes here" },
-               new Rooms(){ room = "B1", up = false, down = false, right = true, left = true, description = "Description goes here" },
-               new Rooms(){ room = "B2", up = false, down = true, right = true, left = false, description = "Description goes here" },
-               new Rooms(){ room = "B3", up = true, down = true, right = false, left = true, description = "Description goes here" },
-               new Rooms(){ room = "B4", up = true, down = false, right = true, left = false, description = "Description goes here" },
-               new Rooms(){ room = "C1", up = false, down = false, right = true, left = true, description = "Description goes here" },
-               new Rooms(){ room = "C2", up = false, down = false, right = true, left = true, description = "Description goes here" },
-               new Rooms(){ room = "C3", up = false, down = true, right = false, left = false, description = "Description goes here" },
-               new Rooms(){ room = "C4", up = true, down = false, right = true, left = true, description = "Description goes here" },
-               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "Description goes here" },
-               new Rooms(){ room = "D2", up = true, down = true, right = false, left = true, description = "Description goes here" },
-               new Rooms(){ room = "D3", up = true, down = true, right = false, left = false, description = "Description goes here" },
-               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "Description goes here" }
+               new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "You are at the entrance of the cave."},
+               new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "It's a dead end. 'You must answer a question to obtain a useful item' is written on the wall." },
+               new Rooms(){ room = "A3", up = true, down = true, right = true, left = false, description = "There are two ways. Head North or turn South?" },
+               new Rooms(){ room = "A4", up = true, down = false, right = false, left = false, description = "There's a sheet of paper on top of the stone. You might need a pen." },
+               new Rooms(){ room = "B1", up = false, down = false, right = true, left = true, description = "A torch is on the ground." },
+               new Rooms(){ room = "B2", up = false, down = true, right = true, left = false, description = "To move ahead through the cave, you must answer a question correctly." },
+               new Rooms(){ room = "B3", up = true, down = true, right = false, left = true, description = "There are two ways. Continue North or turn East?" },
+               new Rooms(){ room = "B4", up = true, down = false, right = true, left = false, description = "To continue on, you must answer a question correctly." },
+               new Rooms(){ room = "C1", up = false, down = false, right = true, left = true, description = "You are currently in a very dark area. It's very hard to see." },
+               new Rooms(){ room = "C2", up = false, down = false, right = true, left = true, description = "There's only one way ahead. But you need to correctly answer a question to continue." },
+               new Rooms(){ room = "C3", up = false, down = true, right = false, left = false, description = "Congratulations! You have answered all questions correctly and collected important items. You have finally found a BIT Diploma!" },
+               new Rooms(){ room = "C4", up = true, down = false, right = true, left = true, description = "There's a door. You need a key to remove the lock." },
+               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "To continue on, you must answer this question correctly." },
+               new Rooms(){ room = "D2", up = true, down = true, right = false, left = true, description = "There are two ways. Continue North or turn East?" },
+               new Rooms(){ room = "D3", up = true, down = true, right = false, left = false, description = "It's a dead end. But one wall looks different." },
+               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "You have successfully break down the wall. Here's a pen to answer your exam. Goodluck!" }
             };
 
             roomRequires = new Requires[] //@TODO: Room requrements go here
@@ -114,17 +114,16 @@ namespace presentation
                 new Requires(){ room = "D1", item = null },
                 new Requires(){ room = "D2", item = null },
                 new Requires(){ room = "D3", item = null },
-                new Requires(){ room = "D4", item = null },
-
+                new Requires(){ room = "D4", item = null }
             };
 
             questions = new Questions[]
             {
-                new Questions(){ room = "A1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"},
-                new Questions(){ room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "A1", answered = true},
+                new Questions(){ room = "A2", question = "a2What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
                 new Questions(){ room = "A3", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
                 new Questions(){ room = "A4", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
-                new Questions(){ room = "B1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""},
+                new Questions(){ room = "B1", question = "b1What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"},
                 new Questions(){ room = "B2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = ""}
             };
 
@@ -149,7 +148,7 @@ namespace presentation
             string[] stats = temp.Split(',');
 
             player[0].health = Convert.ToInt32(stats[0]);
-            player[0].room = stats[1].Trim(' ');
+            player[0].room = stats[1].TrimEnd(' ').TrimStart(' ');
             player[0].torch = Convert.ToBoolean(stats[2]);
             player[0].hammer = Convert.ToBoolean(stats[3]);
             player[0].key = Convert.ToBoolean(stats[4]);
@@ -157,8 +156,8 @@ namespace presentation
             player[0].diploma = Convert.ToBoolean(stats[6]);
 
             // Gets the saved room and loads it into the current room
-            currentRoom[0] = Convert.ToChar(stats[1].Substring(0,1));
-            currentRoom[1] = Convert.ToChar(stats[1].Substring(1,1));
+            currentRoom[0] = Convert.ToChar(stats[1].Substring(0, 1));
+            currentRoom[1] = Convert.ToChar(stats[1].Substring(1, 1));
 
         }
 
@@ -172,15 +171,87 @@ namespace presentation
             sw.Close();
         }
 
-        static void moveIntoRoom(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires)
+        static void MoveIntoRoom(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
             char x = currentRoom[0];
             char y = currentRoom[1];
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
-            Console.WriteLine(z);
             string question = questions[z].question;
-            Console.WriteLine(question);
+            Console.WriteLine(questions[z].answered);
+
+            if (!questions[z].answered)
+            {
+
+                if (x == 'A' && y == '4')
+                {
+                    Console.WriteLine("special Room");
+                }
+                else
+                {
+
+                    Console.WriteLine(question);
+                    char response = Console.ReadKey().KeyChar;
+                    if (response == questions[z].answer)
+                    {
+                        Console.WriteLine("Congratulations, you got the question correct.");
+                        if (questions[z].reward != null)
+                        {
+                            switch (questions[z].reward)
+                            {
+                                case "torch":
+                                    player[0].torch = true;
+                                    break;
+                                case "pen":
+                                    player[0].pen = true;
+                                    break;
+                                case "hammer":
+                                    player[0].hammer = true;
+                                    break;
+                                case "key":
+                                    player[0].key = true;
+                                    break;
+                                case "diploma":
+                                    player[0].diploma = true;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        questions[z].answered = true;
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You got it wrong. you loose 25 health");
+                        player[0].health = player[0].health - 25;
+                    }
+                }
+
+                if (player[0].health < 1)
+                {
+                    //You died
+                    Console.WriteLine("You died. Please try again");
+                    Console.ReadLine();
+                    player[0].health = 100;
+                    currentRoom[0] = 'A';
+                    currentRoom[1] = '1';
+                    for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+                    {
+                        if (questions[i].question != null)
+                        {
+                            questions[i].answered = false;
+                        }
+                    }
+                    WriteFile(player, currentRoom);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+            }
+            else
+            {
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
@@ -189,77 +260,72 @@ namespace presentation
             char y = currentRoom[1];
             string nextRoom = Convert.ToString(x) + y;
             int newRoomId = FindRoom(nextRoom, rooms);
-            //Console.Write("You have");
-            //if (!player[0].torch && !player[0].pen && !player[0].key && !player[0].pen && !player[0].diploma)
-            //{
-            //    Console.WriteLine(" nothing.");
-            //} else {
-            //    if (player[0].torch) Console.Write(", torch");
-            //    if (player[0].hammer) Console.Write(", hammer");
-            //    if (player[0].key) Console.Write(", key");
-            //    if (player[0].pen) Console.Write(", pen");
-            //    if (player[0].diploma) Console.Write(", diploma");
-            //    Console.WriteLine(".");
-            //}
 
-            string item = roomRequires[newRoomId].item;
-
-            switch (item)
+            if (roomRequires[newRoomId].item != null)
             {
-                case "torch":
-                    if (player[0].torch)
-                    {
-                        return true;
-                    } else
-                    {
-                        Console.WriteLine("You are missing the torch");
-                    }
-                    break;
-                case "pen":
-                    if (player[0].pen)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are missing the pen");
-                    }
-                    break;
-                case "hammer":
-                    if (player[0].hammer)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are missing the hammer");
-                    }
-                    break;
-                case "key":
-                    if (player[0].key)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are missing the key");
-                    }
-                    break;
-                case "diploma":
-                    if (player[0].diploma)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("You are missing the diploma");
-                    }
-                    break;
-                default:
-                    break;
+                string item = roomRequires[newRoomId].item;
+                Console.WriteLine(item);
+                Console.ReadLine();
+
+                switch (item)
+                {
+                    case "torch":
+                        if (player[0].torch)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are missing the torch");
+                        }
+                        break;
+                    case "pen":
+                        if (player[0].pen)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are missing the pen");
+                        }
+                        break;
+                    case "hammer":
+                        if (player[0].hammer)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are missing the hammer");
+                        }
+                        break;
+                    case "key":
+                        if (player[0].key)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are missing the key");
+                        }
+                        break;
+                    case "diploma":
+                        if (player[0].diploma)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("You are missing the diploma");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return false;
             }
-            Console.ReadLine();
-            return false;
+            //Console.ReadLine();
+            return true;
         }
 
         static int FindRoom(string room, Rooms[] rooms)
@@ -308,11 +374,10 @@ namespace presentation
                         Console.ReadLine();
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
-                    newRoom[0]--;
+                    newRoom[1]--;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        moveIntoRoom(newRoom, rooms, questions, roomRequires);
-                        Console.WriteLine("YES");
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
                     {
@@ -327,10 +392,10 @@ namespace presentation
                         Console.ReadLine();
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
-                    newRoom[0]++;
+                    newRoom[1]++;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        Console.WriteLine("YES");
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
                     {
@@ -345,10 +410,10 @@ namespace presentation
                         Console.ReadLine();
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
-                    newRoom[1]--;
+                    newRoom[0]--;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        Console.WriteLine("YES");
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                     }
                     else
                     {
@@ -363,11 +428,12 @@ namespace presentation
                         Console.ReadLine();
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
-                    newRoom[1]++;
+                    newRoom[0]++;
                     if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                     {
-                        moveIntoRoom(newRoom, rooms, questions, roomRequires);
-                    } else
+                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    }
+                    else
                     {
                         Console.WriteLine("You can't go into that room at this time.");
                     }
@@ -398,13 +464,29 @@ namespace presentation
 
         static void QuestionsJonas()
         {
-            new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen", answered = false };
+            new Questions() { room = "A1", answered = true };
+            new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - A denial of service attack\n\tb - A phishing attack\n\tb - A information intercepting attack\n\tb - A denial of server attack", answer = 'a', reward = "hammer", answered = false };
+            new Questions() { room = "A3", answered = true };
+            new Questions() { room = "A4", question = "Three Question Exam", answer = 'a', reward = "key", answered = false };
+            new Questions() { room = "B1", reward = "torch", answered = true };
+            new Questions() { room = "B2", question = "What is the frist stage of group work?\n\ta - Storming\n\tb - Forming\n\tb - Norming\n\tb - Performing", answer = 'b', answered = false };
+            new Questions() { room = "B3", answered = true };
+            new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tb - 8x^2+16x+64\n\tb - Not Expandable", answer = 'a', answered = false };
+            new Questions() { room = "C1", answered = true };
+            new Questions() { room = "C2", question = "How do you print Hello World out to the screen in C#?\n\ta - Console.ReadLine(Hello World);\n\tb - Console.Read(Hello World);\n\tb - Console.WriteLine(Hello World);\n\tb - WriteOut(Hello World);", answer = 'c', answered = false };
+            new Questions() { room = "C3", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tb - Session\n\tb - Transport", answer = 'c',  answered = false };
+            new Questions() { room = "C4", question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false };
+            new Questions() { room = "D1", question = "What does BIOS stand for?\n\ta - Basic input output system\n\tb - Basic information on system\n\tb - Basic integrated output system\n\tb - Basic isolated operating system", answer = 'a', answered = false };
+            new Questions() { room = "D2", answered = true };
+            new Questions() { room = "D3", answered = true };
+            new Questions() { room = "D4", question = "Under which conditions will this code run: if ((x<5) && (x>2))\n\ta - Both statements need to be true\n\tb - Both statements need to be false\n\tb - One statement only has to be right\n\tb - it will never run", answer = 'a', reward = "pen", answered = false };
+
         }
 
         static void Requires1()
         {
             new Requires() { room = "A2", item = "pen" };
-            
+
         }
 
     }
