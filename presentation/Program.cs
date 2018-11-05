@@ -115,13 +115,13 @@ namespace presentation
 
             roomRequires = new Requires[] //@TODO: Room requrements go here
             {
-                new Requires(){ room = "B1", item = "torch"},
-                new Requires(){ room = "C1", item = "pen"}
+                new Requires(){ room = "C1", item = "torch"},
+                new Requires(){ room = "D1", item = "pen"}
             };
 
             questions = new Questions[]
             {
-                new Questions(){ room = "A2", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "pen"}
+                new Questions(){ room = "B1", question = "What is a DoS attack?\n\ta - Answer 1\n\tb - Answer 2", answer = 'a', reward = "torch"}
             };
 
             items = new Items[]
