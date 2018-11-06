@@ -123,7 +123,7 @@ namespace presentation
                 new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - A denial of service attack\n\tb - A phishing attack\n\tc - A information intercepting attack\n\td - A denial of server attack", answer = 'a', reward = "hammer", answered = false },
                 new Questions() { room = "A3", answered = true },
                 new Questions() { room = "A4", question = "Three Question Exam", answer = 'a', reward = "key", answered = false },
-                new Questions() { room = "B1", question = "Do you want the torch? y for yes, n for no", answer = 'y', reward = "torch", answered = true },
+                new Questions() { room = "B1", question = "Do you want the torch? y for yes, n for no", answer = 'y', reward = "torch", answered = false },
                 new Questions() { room = "B2", question = "What is the first stage of group work?\n\ta - Storming\n\tb - Forming\n\tc - Norming\n\td - Performing", answer = 'b', answered = false },
                 new Questions() { room = "B3", answered = true },
                 new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tc - 8x^2+16x+64\n\td - Not Expandable", answer = 'a', answered = false },
@@ -139,7 +139,7 @@ namespace presentation
 
             Console.WriteLine(questions[0].question);
 #if DEBUG
-            //Console.ReadLine();
+            Console.ReadLine();
 #endif
         }
 
@@ -188,7 +188,7 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             string question = questions[z].question;
-            Console.WriteLine(questions[z].answered);
+            //Console.WriteLine(questions[z].answered);
 
             if (!questions[z].answered)
             {
@@ -204,30 +204,39 @@ namespace presentation
                     char response = Console.ReadKey().KeyChar;
                     if (response == questions[z].answer)
                     {
+                        Console.WriteLine();
                         Console.WriteLine("Congratulations, you got the question correct.");
                         if (questions[z].reward != null)
                         {
-                            switch (questions[z].reward)
+                            Console.WriteLine("There appears to be a  " + questions[z].reward + " on the ground. Do you wish to pick it up?");
+                            string input = Console.ReadLine();
+                            Console.WriteLine(input[0]);
+                            if (char.ToLower(input[0]) == 'y')
                             {
-                                case "torch":
-                                    player[0].torch = true;
-                                    break;
-                                case "pen":
-                                    player[0].pen = true;
-                                    break;
-                                case "hammer":
-                                    player[0].hammer = true;
-                                    break;
-                                case "key":
-                                    player[0].key = true;
-                                    break;
-                                case "diploma":
-                                    player[0].diploma = true;
-                                    break;
-                                default:
-                                    break;
+                                Console.WriteLine("YYYY");
+                                switch (questions[z].reward)
+                                {
+                                    case "torch":
+                                        player[0].torch = true;
+                                        break;
+                                    case "pen":
+                                        player[0].pen = true;
+                                        break;
+                                    case "hammer":
+                                        player[0].hammer = true;
+                                        break;
+                                    case "key":
+                                        player[0].key = true;
+                                        break;
+                                    case "diploma":
+                                        player[0].diploma = true;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
+                        Console.ReadLine();
                         questions[z].answered = true;
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
@@ -235,6 +244,8 @@ namespace presentation
                     {
                         Console.WriteLine("You got it wrong. you loose 25 health");
                         player[0].health = player[0].health - 25;
+                        Console.ReadLine();
+                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                 }
 
@@ -334,7 +345,6 @@ namespace presentation
                 }
                 return false;
             }
-            //Console.ReadLine();
             return true;
         }
 
