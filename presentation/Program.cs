@@ -259,17 +259,15 @@ namespace presentation
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
-            char x = currentRoom[0];
-            char y = currentRoom[1];
+            char x = newRoom[0];
+            char y = newRoom[1];
             string nextRoom = Convert.ToString(x) + y;
             int newRoomId = FindRoom(nextRoom, rooms);
 
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
-                Console.WriteLine(item);
-                Console.ReadLine();
-
+                
                 switch (item)
                 {
                     case "torch":
@@ -350,6 +348,7 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             string[] item = input.Split(' ');
+            string unknown = item[item.Length - 1];
             if (input.Contains("pen"))
             {
                 if (questions[z].reward == "pen")
@@ -412,7 +411,7 @@ namespace presentation
             }
             else
             {
-                Console.WriteLine("There is no " + item[item.Length - 1] + " in the room");
+                Console.WriteLine("There is no " + unknown + " in the room");
             }
         }
 
@@ -576,6 +575,7 @@ namespace presentation
             Console.WriteLine("Good luck!");
             Console.WriteLine("");
             Console.WriteLine("Type 'up', 'down', 'left', 'right' to move to whatever direction you want.");
+            Console.WriteLine("Type 'info' ");
             Console.WriteLine("Type 'inventory' to display the items you have collected so far and see the amount of life you have left.");
             Console.WriteLine("Type 'save' to save your game and 'exit' to exit the game.");
         }
