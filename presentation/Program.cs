@@ -476,8 +476,19 @@ namespace presentation
 
         static void DisplayHelp()
         {
-            Console.WriteLine("Type either up, down, left, right to move in that direction.");
-            Console.WriteLine("\t'save' to save\n\t'exit' to exit");
+            Console.WriteLine("Your mission is to obtain a BIT cetificate diploma by answering year 1 questions or whatever you have learnt.");
+            Console.WriteLine( "You will have a great experience trying to find the things you need.");
+            Console.WriteLine("");
+            Console.WriteLine("Keep in mind that you will require to use your actual brain for this. I know...It's hard.");
+            Console.WriteLine("But don't worry pal! You might do well. Nothing is impossible.");
+            Console.WriteLine("");
+            Console.WriteLine("Make sure to eat some food before you start because you should not be expecting food here.");
+            Console.WriteLine("Unless you like eating questions or.. anything that is not edible. I don't know..I don't judge.");
+            Console.WriteLine("Good luck!");
+            Console.WriteLine("");
+            Console.WriteLine("Type 'up', 'down', 'left', 'right' to move to whatever direction you want.");
+            Console.WriteLine("Type 'inventory' to display the items you have collected so far and see the amount of life you have left.");
+            Console.WriteLine("Type 'save' to save your game and 'exit' to exit the game.");
         }
 
     }
