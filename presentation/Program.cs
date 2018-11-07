@@ -119,7 +119,7 @@ namespace presentation
                 new Questions() { room = "A2", question = "What is a DoS attack?\n\ta - A denial of service attack\n\tb - A phishing attack\n\tc - A information intercepting attack\n\td - A denial of server attack", answer = 'a', reward = "hammer", answered = false },
                 new Questions() { room = "A3", answered = true },
                 new Questions() { room = "A4", question = "Three Question Exam", answer = 'a', reward = "key", answered = false },
-                new Questions() { room = "B1", question = "Do you want the torch? y for yes, n for no", answer = 'y', reward = "torch", answered = false },
+                new Questions() { room = "B1",reward = "torch", answered = true },
                 new Questions() { room = "B2", question = "What is the first stage of group work?\n\ta - Storming\n\tb - Forming\n\tc - Norming\n\td - Performing", answer = 'b', answered = false },
                 new Questions() { room = "B3", answered = true },
                 new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tc - 8x^2+16x+64\n\td - Not Expandable", answer = 'a', answered = false },
@@ -280,11 +280,7 @@ namespace presentation
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
-<<<<<<< HEAD
-                
-                
-=======
->>>>>>> 26cc990f3dc3af9398eb58242f8938eaf4099985
+
 
                 switch (item)
                 {
@@ -295,7 +291,7 @@ namespace presentation
                         }
                         else
                         {
-                            Console.WriteLine("This room is too dark. You will net be able to go through here!");
+                            Console.WriteLine("This room is too dark. You will not be able to go through here!");
                         }
                         break;
                     case "pen":
