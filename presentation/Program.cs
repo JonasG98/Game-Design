@@ -172,6 +172,7 @@ namespace presentation
             string curFile = @"save.txt";
             currentRoom[0] = 'A';
             currentRoom[1] = '1';
+            player[0].health = 100;
 
             for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
             {
@@ -202,7 +203,17 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             string question = questions[z].question;
-            //Console.WriteLine(questions[z].answered);
+            Menu(currentRoom, rooms, questions, roomRequires, player);
+
+        }
+
+        static void AskInfo(Questions[] questions, Player[] player, char[] currentRoom, Rooms[] rooms, Requires[] roomRequires)
+        {
+            char x = currentRoom[0];
+            char y = currentRoom[1];
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            string question = questions[z].question;
 
             if (!questions[z].answered)
             {
@@ -257,7 +268,6 @@ namespace presentation
             {
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
-
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
@@ -270,8 +280,11 @@ namespace presentation
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
+<<<<<<< HEAD
                 
                 
+=======
+>>>>>>> 26cc990f3dc3af9398eb58242f8938eaf4099985
 
                 switch (item)
                 {
@@ -353,6 +366,7 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             string[] item = input.Split(' ');
+            string unknown = item[item.Length - 1];
             if (input.Contains("pen"))
             {
                 if (questions[z].reward == "pen")
@@ -415,12 +429,13 @@ namespace presentation
             }
             else
             {
-                Console.WriteLine("There is no " + item[item.Length - 1] + " in the room");
+                Console.WriteLine("There is no " + unknown + " in the room");
             }
         }
 
         static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
+            Console.Title = "Console Degree - Health: " + player[0].health + "%";
             char x = currentRoom[0];
             char y = currentRoom[1];
             char[] newRoom = { x, y };
@@ -460,6 +475,13 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("down"))
@@ -475,6 +497,13 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("left"))
@@ -490,6 +519,13 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("right"))
@@ -505,10 +541,13 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 else
                 {
                     Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("look"))
@@ -532,6 +571,8 @@ namespace presentation
             {
                 Console.Clear();
                 Console.WriteLine(rooms[z].description);
+                Console.ReadLine();
+                AskInfo(questions, player, currentRoom, rooms, roomRequires);
                 Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
@@ -569,7 +610,7 @@ namespace presentation
         static void DisplayHelp()
         {
             Console.WriteLine("Your mission is to obtain a BIT cetificate diploma by answering year 1 questions or whatever you have learnt.");
-            Console.WriteLine( "You will have a great experience trying to find the things you need.");
+            Console.WriteLine("You will have a great experience trying to find the things you need.");
             Console.WriteLine("");
             Console.WriteLine("Keep in mind that you will require to use your actual brain for this. I know...It's hard.");
             Console.WriteLine("But don't worry pal! You might do well. Nothing is impossible.");
@@ -579,6 +620,7 @@ namespace presentation
             Console.WriteLine("Good luck!");
             Console.WriteLine("");
             Console.WriteLine("Type 'up', 'down', 'left', 'right' to move to whatever direction you want.");
+            Console.WriteLine("Type 'info' to see how to get out of the room and any items that are in the room");
             Console.WriteLine("Type 'inventory' to display the items you have collected so far and see the amount of life you have left.");
             Console.WriteLine("Type 'save' to save your game and 'exit' to exit the game.");
         }
