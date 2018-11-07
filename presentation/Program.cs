@@ -595,7 +595,7 @@ namespace presentation
             Console.WriteLine("Good luck!");
             Console.WriteLine("");
             Console.WriteLine("Type 'up', 'down', 'left', 'right' to move to whatever direction you want.");
-            Console.WriteLine("Type 'info' ");
+            Console.WriteLine("Type 'info' to see how to get out of the room and any items that are in the room");
             Console.WriteLine("Type 'inventory' to display the items you have collected so far and see the amount of life you have left.");
             Console.WriteLine("Type 'save' to save your game and 'exit' to exit the game.");
         }
