@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace presentation
 {
@@ -94,7 +90,7 @@ namespace presentation
                new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "To continue on, you must answer this question correctly." },
                new Rooms(){ room = "D2", up = true, down = true, right = false, left = true, description = "There are two ways. Continue North or turn East?" },
                new Rooms(){ room = "D3", up = true, down = true, right = false, left = false, description = "It's a dead end. But one wall looks different." },
-               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "You have successfully break down the wall. Here's a pen to answer your exam. Goodluck!" }
+               new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "You have to successfully break down the wall. Goodluck!" }
             };
 
             roomRequires = new Requires[] //@TODO: Room requrements go here
@@ -206,37 +202,8 @@ namespace presentation
                     {
                         Console.WriteLine();
                         Console.WriteLine("Congratulations, you got the question correct.");
-                        if (questions[z].reward != null)
-                        {
-                            Console.WriteLine("There appears to be a  " + questions[z].reward + " on the ground. Do you wish to pick it up?");
-                            string input = Console.ReadLine();
-                            Console.WriteLine(input[0]);
-                            if (char.ToLower(input[0]) == 'y')
-                            {
-                                Console.WriteLine("YYYY");
-                                switch (questions[z].reward)
-                                {
-                                    case "torch":
-                                        player[0].torch = true;
-                                        break;
-                                    case "pen":
-                                        player[0].pen = true;
-                                        break;
-                                    case "hammer":
-                                        player[0].hammer = true;
-                                        break;
-                                    case "key":
-                                        player[0].key = true;
-                                        break;
-                                    case "diploma":
-                                        player[0].diploma = true;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                        }
                         Console.ReadLine();
+                        player[0].room = room;
                         questions[z].answered = true;
                         Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
@@ -368,106 +335,117 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             Console.Clear();
-            Console.WriteLine("You are currently in room " + room + ". " + rooms[z].description);
-            Console.Write("You can move ");
-            if (rooms[z].up) Console.Write("(u)p ");
-            if (rooms[z].down) Console.Write("(d)own ");
-            if (rooms[z].left) Console.Write("(l)eft ");
-            if (rooms[z].right) Console.Write("(r)ight ");
+            Console.WriteLine("You are currently in room " + room + ".");
+            Console.WriteLine();
 
             Console.WriteLine("What would you like to do (press h for help) ? ");
-            char a = Console.ReadKey().KeyChar;
-            a = char.ToLower(a);
-            switch (a)
+            string input = Console.ReadLine();
+            input = input.ToLower();
+            if (input.Contains("help"))
             {
-                case 'h':
-                    Console.Clear();
-                    DisplayHelp();
+                Console.Clear();
+                DisplayHelp();
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("up"))
+            {
+                Console.Clear();
+                if (!rooms[z].up)
+                {
+                    Console.WriteLine("Invalid move. Please try again.");
                     Console.ReadLine();
                     Menu(currentRoom, rooms, questions, roomRequires, player);
-                    break;
-                case 'u':
-                    Console.Clear();
-                    if (!rooms[z].up)
-                    {
-                        Console.WriteLine("Invalid move. Please try again.");
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
-                    }
-                    newRoom[1]--;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
-                    {
-                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NO");
-                    }
-                    break;
-                case 'd':
-                    Console.Clear();
-                    if (!rooms[z].down)
-                    {
-                        Console.WriteLine("Invalid move. Please try again.");
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
-                    }
-                    newRoom[1]++;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
-                    {
-                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NO");
-                    }
-                    break;
-                case 'l':
-                    Console.Clear();
-                    if (!rooms[z].left)
-                    {
-                        Console.WriteLine("Invalid move. Please try again.");
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
-                    }
-                    newRoom[0]--;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
-                    {
-                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
-                    }
-                    else
-                    {
-                        Console.WriteLine("NO");
-                    }
-                    break;
-                case 'r':
-                    Console.Clear();
-                    if (!rooms[z].right)
-                    {
-                        Console.WriteLine("Invalid move. Please try again.");
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
-                    }
-                    newRoom[0]++;
-                    if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
-                    {
-                        MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
-                    }
-                    else
-                    {
-                        Console.WriteLine("You can't go into that room at this time.");
-                    }
-                    break;
-                case 's':
-                    WriteFile(player, currentRoom);
-                    Menu(currentRoom, rooms, questions, roomRequires, player);
-                    break;
-                case 'e':
-                    break;
-                default:
-                    Menu(currentRoom, rooms, questions, roomRequires, player);
-                    break;
+                }
+                newRoom[1]--;
+                if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
+                {
+                    MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                }
             }
+            else if (input.Contains("down"))
+            {
+                Console.Clear();
+                if (!rooms[z].down)
+                {
+                    Console.WriteLine("Invalid move. Please try again.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                newRoom[1]++;
+                if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
+                {
+                    MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                }
+            }
+            else if (input.Contains("left"))
+            {
+                Console.Clear();
+                if (!rooms[z].left)
+                {
+                    Console.WriteLine("Invalid move. Please try again.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                newRoom[0]--;
+                if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
+                {
+                    MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                }
+            }
+            else if (input.Contains("right"))
+            {
+                Console.Clear();
+                if (!rooms[z].right)
+                {
+                    Console.WriteLine("Invalid move. Please try again.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
+                newRoom[0]++;
+                if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
+                {
+                    MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                }
+            }
+            else if (input.Contains("look"))
+            {
+                Console.Clear();
+                Console.Write("You can move ");
+                if (rooms[z].up) Console.Write("up ");
+                if (rooms[z].down) Console.Write("down ");
+                if (rooms[z].left) Console.Write("left ");
+                if (rooms[z].right) Console.Write("right ");
+                Console.WriteLine();
+
+                if (questions[z].reward != null)
+                {
+                    Console.WriteLine("There appears to be a " + questions[z].reward + " on the ground.");
+                }
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("info"))
+            {
+                Console.Clear();
+                Console.WriteLine(rooms[z].description);
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("save"))
+            {
+                WriteFile(player, currentRoom);
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("quit") || input.Contains("exit") || input.Contains("end"))
+            {
+                Environment.Exit(0);
+            }
+                
             Console.ReadLine();
         }
 
@@ -478,7 +456,7 @@ namespace presentation
 
         static void DisplayHelp()
         {
-            Console.WriteLine("Press either u, d, l, r to move in a direction.");
+            Console.WriteLine("Type either up, down, left, right to move in that direction.");
             Console.WriteLine("\ts to save\n\te to exit");
         }
 
