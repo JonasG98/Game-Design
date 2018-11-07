@@ -132,7 +132,7 @@ namespace presentation
                 new Questions() { room = "D3", answered = true },
                 new Questions() { room = "D4", question = "Under which conditions will this code run: if ((x<5) && (x>2))\n\ta - Both statements need to be true\n\tb - Both statements need to be false\n\tc - One statement only has to be right\n\td - it will never run", answer = 'a', reward = "pen", answered = false }
             };
-            
+
 
         }
 
@@ -164,9 +164,19 @@ namespace presentation
 
         }
 
-        static void ResetPlayer(Player[] player, char[] currentRoom)
+        static void ResetPlayer(Player[] player, Questions[] questions, char[] currentRoom)
         {
             string curFile = @"save.txt";
+            currentRoom[0] = 'A';
+            currentRoom[1] = '1';
+
+            for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+            {
+                if (questions[i].question != null)
+                {
+                    questions[i].answered = false;
+                }
+            }
             StreamWriter sw = new StreamWriter(curFile);
             sw.WriteLine("100,A1,false,false,false,false,false");
             sw.Close();
@@ -332,6 +342,75 @@ namespace presentation
             return 99;
         }
 
+        static void PickupItem(Player[] player, Rooms[] rooms, Questions[] questions, char[] currentRoom, string input)
+        {
+            char x = currentRoom[0];
+            char y = currentRoom[1];
+            char[] newRoom = { x, y };
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            if (input.Contains("pen"))
+            {
+                if (questions[z].reward == "pen")
+                {
+                    player[0].pen = true;
+                    Console.WriteLine("You managed to pick up the pen");
+                }
+                else
+                {
+                    Console.WriteLine("There is no pen in the room.");
+                }
+            }
+            else if (input.Contains("torch"))
+            {
+                if (questions[z].reward == "torch")
+                {
+                    player[0].torch = true;
+                    Console.WriteLine("You managed to pick up the torch");
+                }
+                else
+                {
+                    Console.WriteLine("There is no torch in the room.");
+                }
+            }
+            else if (input.Contains("key"))
+            {
+                if (questions[z].reward == "key")
+                {
+                    player[0].key = true;
+                    Console.WriteLine("You managed to pick up the key");
+                }
+                else
+                {
+                    Console.WriteLine("There is no key in the room.");
+                }
+            }
+            else if (input.Contains("hammer"))
+            {
+                if (questions[z].reward == "hammer")
+                {
+                    player[0].hammer = true;
+                    Console.WriteLine("You managed to pick up the hammer");
+                }
+                else
+                {
+                    Console.WriteLine("There is no hammer in the room.");
+                }
+            }
+            else if (input.Contains("diploma"))
+            {
+                if (questions[z].reward == "diploma")
+                {
+                    player[0].diploma = true;
+                    Console.WriteLine("You managed to pick up the diploma");
+                }
+                else
+                {
+                    Console.WriteLine("There is no diploma in the room.");
+                }
+            }
+        }
+
         static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
             char x = currentRoom[0];
@@ -351,6 +430,11 @@ namespace presentation
                 Console.Clear();
                 DisplayHelp();
                 Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("pickup") || input.Contains("pick up"))
+            {
+                PickupItem(player, rooms, questions, currentRoom, input);
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
             else if (input.Contains("up"))
@@ -453,9 +537,7 @@ namespace presentation
             else if (input.Contains("reset"))
             {
                 Console.Clear();
-                currentRoom[0] = 'A';
-                currentRoom[1] = '1';
-                ResetPlayer(player, currentRoom);
+                ResetPlayer(player, questions, currentRoom);
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
             else //Display help
@@ -479,6 +561,7 @@ namespace presentation
             Console.WriteLine("Type either up, down, left, right to move in that direction.");
             Console.WriteLine("\t'save' to save\n\t'exit' to exit");
         }
+
 
     }
 }
