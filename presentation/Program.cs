@@ -349,6 +349,7 @@ namespace presentation
             char[] newRoom = { x, y };
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
+            string[] item = input.Split(' ');
             if (input.Contains("pen"))
             {
                 if (questions[z].reward == "pen")
@@ -409,6 +410,10 @@ namespace presentation
                     Console.WriteLine("There is no diploma in the room.");
                 }
             }
+            else
+            {
+                Console.WriteLine("There is no " + item[item.Length - 1] + " in the room");
+            }
         }
 
         static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
@@ -434,7 +439,9 @@ namespace presentation
             }
             else if (input.Contains("pickup") || input.Contains("pick up"))
             {
+                Console.Clear();
                 PickupItem(player, rooms, questions, currentRoom, input);
+                Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
             else if (input.Contains("up"))
