@@ -103,14 +103,14 @@ namespace presentation
                 new Requires(){ room = "B2", item = null },
                 new Requires(){ room = "B3", item = null },
                 new Requires(){ room = "B4", item = null },
-                new Requires(){ room = "C1", item = null },
+                new Requires(){ room = "C1", item = "torch" },
                 new Requires(){ room = "C2", item = null },
-                new Requires(){ room = "C3", item = null },
+                new Requires(){ room = "C3", item = "key" },
                 new Requires(){ room = "C4", item = null },
                 new Requires(){ room = "D1", item = null },
                 new Requires(){ room = "D2", item = null },
                 new Requires(){ room = "D3", item = null },
-                new Requires(){ room = "D4", item = null }
+                new Requires(){ room = "D4", item = "hammer" }
             };
 
             questions = new Questions[]
@@ -125,18 +125,15 @@ namespace presentation
                 new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tc - 8x^2+16x+64\n\td - Not Expandable", answer = 'a', answered = false },
                 new Questions() { room = "C1", answered = true },
                 new Questions() { room = "C2", question = "How do you print Hello World out to the screen in C#?\n\ta - Console.ReadLine(Hello World);\n\tb - Console.Read(Hello World);\n\tc - Console.WriteLine(Hello World);\n\td - WriteOut(Hello World);", answer = 'c', answered = false },
-                new Questions() { room = "C3", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tc - Session\n\td - Transport", answer = 'c', answered = false },
-                new Questions() { room = "C4", question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false },
+                new Questions() { room = "C3",question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false },
+                new Questions() { room = "C4", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tc - Session\n\td - Transport", answer = 'c', answered = false },
                 new Questions() { room = "D1", question = "What does BIOS stand for?\n\ta - Basic input output system\n\tb - Basic information on system\n\tc - Basic integrated output system\n\td - Basic isolated operating system", answer = 'a', answered = false },
                 new Questions() { room = "D2", answered = true },
                 new Questions() { room = "D3", answered = true },
                 new Questions() { room = "D4", question = "Under which conditions will this code run: if ((x<5) && (x>2))\n\ta - Both statements need to be true\n\tb - Both statements need to be false\n\tc - One statement only has to be right\n\td - it will never run", answer = 'a', reward = "pen", answered = false }
             };
+            
 
-            Console.WriteLine(questions[0].question);
-#if DEBUG
-            Console.ReadLine();
-#endif
         }
 
         static void OpenFile(Player[] player, char[] currentRoom)
@@ -165,6 +162,14 @@ namespace presentation
             currentRoom[0] = Convert.ToChar(stats[1].Substring(0, 1));
             currentRoom[1] = Convert.ToChar(stats[1].Substring(1, 1));
 
+        }
+
+        static void ResetPlayer(Player[] player, char[] currentRoom)
+        {
+            string curFile = @"save.txt";
+            StreamWriter sw = new StreamWriter(curFile);
+            sw.WriteLine("100,A1,false,false,false,false,false");
+            sw.Close();
         }
 
         static void WriteFile(Player[] player, char[] currentRoom)
@@ -211,8 +216,6 @@ namespace presentation
                     {
                         Console.WriteLine("You got it wrong. you loose 25 health");
                         player[0].health = player[0].health - 25;
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                 }
 
@@ -234,6 +237,8 @@ namespace presentation
                     WriteFile(player, currentRoom);
                     Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
             }
             else
             {
@@ -338,7 +343,7 @@ namespace presentation
             Console.WriteLine("You are currently in room " + room + ".");
             Console.WriteLine();
 
-            Console.WriteLine("What would you like to do (press h for help) ? ");
+            Console.WriteLine("What would you like to do (type 'help' for help) ? ");
             string input = Console.ReadLine();
             input = input.ToLower();
             if (input.Contains("help"))
@@ -445,7 +450,22 @@ namespace presentation
             {
                 Environment.Exit(0);
             }
-                
+            else if (input.Contains("reset"))
+            {
+                Console.Clear();
+                currentRoom[0] = 'A';
+                currentRoom[1] = '1';
+                ResetPlayer(player, currentRoom);
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else //Display help
+            {
+                Console.Clear();
+                DisplayHelp();
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+
             Console.ReadLine();
         }
 
@@ -457,13 +477,7 @@ namespace presentation
         static void DisplayHelp()
         {
             Console.WriteLine("Type either up, down, left, right to move in that direction.");
-            Console.WriteLine("\ts to save\n\te to exit");
-        }
-
-        static void Requires1()
-        {
-            new Requires() { room = "A2", item = "pen" };
-
+            Console.WriteLine("\t'save' to save\n\t'exit' to exit");
         }
 
     }
