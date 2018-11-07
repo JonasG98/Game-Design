@@ -170,6 +170,7 @@ namespace presentation
             currentRoom[0] = 'A';
             currentRoom[1] = '1';
             player[0].health = 100;
+            player[0].hammer = player[0].pen = player[0].torch = player[0].key = player[0].diploma = false;
 
             for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
             {
