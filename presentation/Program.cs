@@ -103,14 +103,14 @@ namespace presentation
                 new Requires(){ room = "B2", item = null },
                 new Requires(){ room = "B3", item = null },
                 new Requires(){ room = "B4", item = null },
-                new Requires(){ room = "C1", item = null },
+                new Requires(){ room = "C1", item = "torch" },
                 new Requires(){ room = "C2", item = null },
-                new Requires(){ room = "C3", item = null },
+                new Requires(){ room = "C3", item = "key" },
                 new Requires(){ room = "C4", item = null },
                 new Requires(){ room = "D1", item = null },
                 new Requires(){ room = "D2", item = null },
                 new Requires(){ room = "D3", item = null },
-                new Requires(){ room = "D4", item = null }
+                new Requires(){ room = "D4", item = "hammer" }
             };
 
             questions = new Questions[]
@@ -125,8 +125,8 @@ namespace presentation
                 new Questions() { room = "B4", question = "Expand this math equation! 4*(x+4)^2\n\ta - 4x^2+32x+64\n\tb - 4x^2+16x+16\n\tc - 8x^2+16x+64\n\td - Not Expandable", answer = 'a', answered = false },
                 new Questions() { room = "C1", answered = true },
                 new Questions() { room = "C2", question = "How do you print Hello World out to the screen in C#?\n\ta - Console.ReadLine(Hello World);\n\tb - Console.Read(Hello World);\n\tc - Console.WriteLine(Hello World);\n\td - WriteOut(Hello World);", answer = 'c', answered = false },
-                new Questions() { room = "C3", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tc - Session\n\td - Transport", answer = 'c', answered = false },
-                new Questions() { room = "C4", question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false },
+                new Questions() { room = "C3",question = "Did you enjoy this game?\n\ta - Yes", answer = 'a', reward = "diploma", answered = false },
+                new Questions() { room = "C4", question = "What is the fifth layer of the OSI model?\n\ta - Data Link\n\tb - Physical\n\tc - Session\n\td - Transport", answer = 'c', answered = false },
                 new Questions() { room = "D1", question = "What does BIOS stand for?\n\ta - Basic input output system\n\tb - Basic information on system\n\tc - Basic integrated output system\n\td - Basic isolated operating system", answer = 'a', answered = false },
                 new Questions() { room = "D2", answered = true },
                 new Questions() { room = "D3", answered = true },
@@ -136,10 +136,7 @@ namespace presentation
                     answer = 'a', reward = "pen", answered = false }
             };
 
-            Console.WriteLine(questions[0].question);
-#if DEBUG
-            Console.ReadLine();
-#endif
+
         }
 
         static void OpenFile(Player[] player, char[] currentRoom)
@@ -168,6 +165,24 @@ namespace presentation
             currentRoom[0] = Convert.ToChar(stats[1].Substring(0, 1));
             currentRoom[1] = Convert.ToChar(stats[1].Substring(1, 1));
 
+        }
+
+        static void ResetPlayer(Player[] player, Questions[] questions, char[] currentRoom)
+        {
+            string curFile = @"save.txt";
+            currentRoom[0] = 'A';
+            currentRoom[1] = '1';
+
+            for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
+            {
+                if (questions[i].question != null)
+                {
+                    questions[i].answered = false;
+                }
+            }
+            StreamWriter sw = new StreamWriter(curFile);
+            sw.WriteLine("100,A1,false,false,false,false,false");
+            sw.Close();
         }
 
         static void WriteFile(Player[] player, char[] currentRoom)
@@ -214,8 +229,6 @@ namespace presentation
                     {
                         Console.WriteLine("You got it wrong. you loose 25 health");
                         player[0].health = player[0].health - 25;
-                        Console.ReadLine();
-                        Menu(currentRoom, rooms, questions, roomRequires, player);
                     }
                 }
 
@@ -237,6 +250,8 @@ namespace presentation
                     WriteFile(player, currentRoom);
                     Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
             }
             else
             {
@@ -330,6 +345,80 @@ namespace presentation
             return 99;
         }
 
+        static void PickupItem(Player[] player, Rooms[] rooms, Questions[] questions, char[] currentRoom, string input)
+        {
+            char x = currentRoom[0];
+            char y = currentRoom[1];
+            char[] newRoom = { x, y };
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            string[] item = input.Split(' ');
+            if (input.Contains("pen"))
+            {
+                if (questions[z].reward == "pen")
+                {
+                    player[0].pen = true;
+                    Console.WriteLine("You managed to pick up the pen");
+                }
+                else
+                {
+                    Console.WriteLine("There is no pen in the room.");
+                }
+            }
+            else if (input.Contains("torch"))
+            {
+                if (questions[z].reward == "torch")
+                {
+                    player[0].torch = true;
+                    Console.WriteLine("You managed to pick up the torch");
+                }
+                else
+                {
+                    Console.WriteLine("There is no torch in the room.");
+                }
+            }
+            else if (input.Contains("key"))
+            {
+                if (questions[z].reward == "key")
+                {
+                    player[0].key = true;
+                    Console.WriteLine("You managed to pick up the key");
+                }
+                else
+                {
+                    Console.WriteLine("There is no key in the room.");
+                }
+            }
+            else if (input.Contains("hammer"))
+            {
+                if (questions[z].reward == "hammer")
+                {
+                    player[0].hammer = true;
+                    Console.WriteLine("You managed to pick up the hammer");
+                }
+                else
+                {
+                    Console.WriteLine("There is no hammer in the room.");
+                }
+            }
+            else if (input.Contains("diploma"))
+            {
+                if (questions[z].reward == "diploma")
+                {
+                    player[0].diploma = true;
+                    Console.WriteLine("You managed to pick up the diploma");
+                }
+                else
+                {
+                    Console.WriteLine("There is no diploma in the room.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("There is no " + item[item.Length - 1] + " in the room");
+            }
+        }
+
         static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
             char x = currentRoom[0];
@@ -341,13 +430,20 @@ namespace presentation
             Console.WriteLine("You are currently in room " + room + ".");
             Console.WriteLine();
 
-            Console.WriteLine("What would you like to do (press h for help) ? ");
+            Console.WriteLine("What would you like to do (type 'help' for help) ? ");
             string input = Console.ReadLine();
             input = input.ToLower();
             if (input.Contains("help"))
             {
                 Console.Clear();
                 DisplayHelp();
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else if (input.Contains("pickup") || input.Contains("pick up"))
+            {
+                Console.Clear();
+                PickupItem(player, rooms, questions, currentRoom, input);
                 Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
@@ -448,7 +544,20 @@ namespace presentation
             {
                 Environment.Exit(0);
             }
-                
+            else if (input.Contains("reset"))
+            {
+                Console.Clear();
+                ResetPlayer(player, questions, currentRoom);
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+            else //Display help
+            {
+                Console.Clear();
+                DisplayHelp();
+                Console.ReadLine();
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
+
             Console.ReadLine();
         }
 
@@ -459,15 +568,21 @@ namespace presentation
 
         static void DisplayHelp()
         {
-            Console.WriteLine("Type either up, down, left, right to move in that direction.");
-            Console.WriteLine("\ts to save\n\te to exit");
+            Console.WriteLine("Your mission is to obtain a BIT cetificate diploma by answering year 1 questions or whatever you have learnt.");
+            Console.WriteLine( "You will have a great experience trying to find the things you need.");
+            Console.WriteLine("");
+            Console.WriteLine("Keep in mind that you will require to use your actual brain for this. I know...It's hard.");
+            Console.WriteLine("But don't worry pal! You might do well. Nothing is impossible.");
+            Console.WriteLine("");
+            Console.WriteLine("Make sure to eat some food before you start because you should not be expecting food here.");
+            Console.WriteLine("Unless you like eating questions or.. anything that is not edible. I don't know..I don't judge.");
+            Console.WriteLine("Good luck!");
+            Console.WriteLine("");
+            Console.WriteLine("Type 'up', 'down', 'left', 'right' to move to whatever direction you want.");
+            Console.WriteLine("Type 'inventory' to display the items you have collected so far and see the amount of life you have left.");
+            Console.WriteLine("Type 'save' to save your game and 'exit' to exit the game.");
         }
 
-        static void Requires1()
-        {
-            new Requires() { room = "A2", item = "pen" };
-
-        }
 
     }
 }
