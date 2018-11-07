@@ -169,6 +169,7 @@ namespace presentation
             string curFile = @"save.txt";
             currentRoom[0] = 'A';
             currentRoom[1] = '1';
+            player[0].health = 100;
 
             for (int i = 0; i < questions.Length; i++) //reset all questions to unanswered
             {
@@ -267,7 +268,7 @@ namespace presentation
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
-                
+
                 switch (item)
                 {
                     case "torch":
@@ -417,6 +418,7 @@ namespace presentation
 
         static void Menu(char[] currentRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
+            Console.Title = "Console Degree - Health: " + player[0].health + "%";
             char x = currentRoom[0];
             char y = currentRoom[1];
             char[] newRoom = { x, y };
@@ -585,7 +587,7 @@ namespace presentation
         static void DisplayHelp()
         {
             Console.WriteLine("Your mission is to obtain a BIT cetificate diploma by answering year 1 questions or whatever you have learnt.");
-            Console.WriteLine( "You will have a great experience trying to find the things you need.");
+            Console.WriteLine("You will have a great experience trying to find the things you need.");
             Console.WriteLine("");
             Console.WriteLine("Keep in mind that you will require to use your actual brain for this. I know...It's hard.");
             Console.WriteLine("But don't worry pal! You might do well. Nothing is impossible.");
