@@ -75,7 +75,7 @@ namespace presentation
 
             rooms = new Rooms[] //create empty array to pass through with ref
             {
-               new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "Welcome traveller!\n On your journey seeking out knowledge of the mysterious B.I.T. study you arrive are at the entrance of a massive labyrinth that consists of several rooms.\n Your goal is it to reach room C3 and obtain your dilpoma!"},
+               new Rooms(){ room = "A1", up = false, down = false, right = true, left = false, description = "Welcome traveller!\nOn your journey seeking out knowledge of the mysterious B.I.T.\nYou arrive are at the entrance of a massive labyrinth that consists of several rooms.\nYour goal is it to reach room C3 and obtain your dilpoma!"},
                new Rooms(){ room = "A2", up = false, down = true, right = false, left = false, description = "It's a dead end. 'You must answer a question to obtain a useful item' is written on the wall." },
                new Rooms(){ room = "A3", up = true, down = true, right = true, left = false, description = "You enter another room with two exits. You can go Up or Down or turn back again. " },
                new Rooms(){ room = "A4", up = true, down = false, right = false, left = false, description = "There's a sheet of paper on top of the stone. You might need a pen." },
@@ -83,11 +83,11 @@ namespace presentation
                new Rooms(){ room = "B2", up = false, down = true, right = true, left = false, description = "You are relieved you survived another room and are looking forward to some kind of reward but another Question is the only think that awaits you here" },
                new Rooms(){ room = "B3", up = true, down = true, right = false, left = true, description = "Not even that room could stop you. You feel like you are getting smarter and feel unstoppable. There are two ways to go here. Left or Down?" },
                new Rooms(){ room = "B4", up = true, down = false, right = true, left = false, description = "To continue on, you must answer a question correctly." },
-               new Rooms(){ room = "C1", up = false, down = false, right = true, left = true, description = "You step into a pitch black room. You can't see a thing except the way back you just came from" },
+               new Rooms(){ room = "C1", up = false, down = false, right = true, left = true, description = "You step into a pitch black room. You can't see a thing except the way back you just came from.\nYou turn on your torch and see an exit to your right." },
                new Rooms(){ room = "C2", up = false, down = false, right = true, left = true, description = "You enter the next room and a different question awaits you. Answer correctly to move on but you can also go back." },
                new Rooms(){ room = "C3", up = false, down = true, right = false, left = false, description = "Congratulations! You have answered all questions correctly and collected important items. You have finally found a BIT Diploma!" },
                new Rooms(){ room = "C4", up = true, down = false, right = true, left = true, description = "There's a door. You need a key to remove the lock." },
-               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "With the torch you had no trouble finding the way into the next room. As you step into it a hugh question apears on the wall in front of you. Answer correctly or feel the punishment." },
+               new Rooms(){ room = "D1", up = false, down = true, right = false, left = true, description = "With the torch you had no trouble finding the way into the next room. As you step into it a question apears on the wall in front of you. Answer correctly or feel the punishment." },
                new Rooms(){ room = "D2", up = true, down = true, right = false, left = true, description = "You survived one of the many Questions and find yourself in a room with two ways. You can go left or down" },
                new Rooms(){ room = "D3", up = true, down = true, right = false, left = false, description = "It's a dead end. But there is something odd about this room." },
                new Rooms(){ room = "D4", up = true, down = false, right = false, left = true, description = "You have to successfully break down the wall. Goodluck!" }
@@ -262,16 +262,16 @@ namespace presentation
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
         {
-            char x = currentRoom[0];
-            char y = currentRoom[1];
+            char x = newRoom[0];
+            char y = newRoom[1];
             string nextRoom = Convert.ToString(x) + y;
             int newRoomId = FindRoom(nextRoom, rooms);
 
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
-                Console.WriteLine(item);
-                Console.ReadLine();
+                
+                
 
                 switch (item)
                 {
@@ -282,7 +282,7 @@ namespace presentation
                         }
                         else
                         {
-                            Console.WriteLine("You are missing the torch");
+                            Console.WriteLine("This room is too dark. You will net be able to go through here!");
                         }
                         break;
                     case "pen":
@@ -302,7 +302,7 @@ namespace presentation
                         }
                         else
                         {
-                            Console.WriteLine("You are missing the hammer");
+                            Console.WriteLine("The wall here looks brittle. Maybe someting can break it");
                         }
                         break;
                     case "key":
