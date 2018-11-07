@@ -457,6 +457,12 @@ namespace presentation
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                 }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
             }
             else if (input.Contains("down"))
             {
@@ -472,6 +478,12 @@ namespace presentation
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
                 }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
+                }
             }
             else if (input.Contains("left"))
             {
@@ -486,6 +498,12 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                }
+                else
+                {
+                    Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("right"))
@@ -505,6 +523,8 @@ namespace presentation
                 else
                 {
                     Console.WriteLine("You can't go into that room at this time.");
+                    Console.ReadLine();
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
             }
             else if (input.Contains("look"))
