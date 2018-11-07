@@ -200,7 +200,17 @@ namespace presentation
             string room = Convert.ToString(x) + y;
             int z = FindRoom(room, rooms);
             string question = questions[z].question;
-            //Console.WriteLine(questions[z].answered);
+            Menu(currentRoom, rooms, questions, roomRequires, player);
+
+        }
+
+        static void AskInfo(Questions[] questions, Player[] player, char[] currentRoom, Rooms[] rooms, Requires[] roomRequires)
+        {
+            char x = currentRoom[0];
+            char y = currentRoom[1];
+            string room = Convert.ToString(x) + y;
+            int z = FindRoom(room, rooms);
+            string question = questions[z].question;
 
             if (!questions[z].answered)
             {
@@ -255,7 +265,6 @@ namespace presentation
             {
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
-
         }
 
         static bool CanMoveIntoRoom(char[] currentRoom, char[] newRoom, Rooms[] rooms, Questions[] questions, Requires[] roomRequires, Player[] player)
@@ -458,6 +467,7 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 else
                 {
@@ -479,6 +489,7 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 else
                 {
@@ -500,6 +511,7 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 else
                 {
@@ -521,6 +533,7 @@ namespace presentation
                 if (CanMoveIntoRoom(currentRoom, newRoom, rooms, questions, roomRequires, player))
                 {
                     MoveIntoRoom(newRoom, rooms, questions, roomRequires, player);
+                    Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 else
                 {
@@ -550,6 +563,8 @@ namespace presentation
             {
                 Console.Clear();
                 Console.WriteLine(rooms[z].description);
+                Console.ReadLine();
+                AskInfo(questions, player, currentRoom, rooms, roomRequires);
                 Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
