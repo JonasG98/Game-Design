@@ -259,7 +259,8 @@ namespace presentation
                             questions[i].answered = false;
                         }
                     }
-                    WriteFile(player, currentRoom);
+                    //WriteFile(player, currentRoom);
+                    ResetPlayer(player, questions, currentRoom);
                     Menu(currentRoom, rooms, questions, roomRequires, player);
                 }
                 Console.ReadLine();
@@ -278,11 +279,16 @@ namespace presentation
             string nextRoom = Convert.ToString(x) + y;
             int newRoomId = FindRoom(nextRoom, rooms);
 
+            char a = currentRoom[0];
+            char b = currentRoom[1];
+            string thisRoom = Convert.ToString(a) + b;
+            int thisRoomId = FindRoom(thisRoom, rooms);
+
+            if (!questions[thisRoomId].answered) return false;
+
             if (roomRequires[newRoomId].item != null)
             {
                 string item = roomRequires[newRoomId].item;
-
-
                 switch (item)
                 {
                     case "torch":
@@ -573,6 +579,12 @@ namespace presentation
                 Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
+            else if (input.Contains("inventory"))
+            {
+                Console.Clear();
+                DisplayInventory(player);
+                Menu(currentRoom, rooms, questions, roomRequires, player);
+            }
             else if (input.Contains("save"))
             {
                 WriteFile(player, currentRoom);
@@ -599,9 +611,22 @@ namespace presentation
             Console.ReadLine();
         }
 
-        static char selection(int z, Rooms[] rooms)
+        static void DisplayInventory(Player[] player)
         {
-            return ' ';
+            if (!player[0].pen && !player[0].torch && !player[0].key && !player[0].hammer && !player[0].diploma)
+            {
+                Console.WriteLine("You have no items");
+            }
+            else
+            {
+                Console.WriteLine("You are carrying the following items:");
+                if (player[0].torch) Console.WriteLine("\t- Torch");
+                if (player[0].pen) Console.WriteLine("\t- Pen");
+                if (player[0].hammer) Console.WriteLine("\t- Hammer");
+                if (player[0].key) Console.WriteLine("\t- Key");
+                if (player[0].diploma) Console.WriteLine("\t- Diploma");
+            }
+            Console.ReadLine();
         }
 
         static void DisplayHelp()
