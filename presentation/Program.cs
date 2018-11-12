@@ -67,7 +67,6 @@ namespace presentation
             OpenFile(player, currentRoom);
             Menu(currentRoom, rooms, questions, roomRequires, player);
             WriteFile(player, currentRoom);
-            //Console.ReadLine();
         }
 
         static void PopulateArrays(ref Rooms[] rooms, ref Questions[] questions, ref Requires[] roomRequires)
