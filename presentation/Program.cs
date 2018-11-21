@@ -578,7 +578,7 @@ namespace presentation
                 Console.ReadLine();
                 Menu(currentRoom, rooms, questions, roomRequires, player);
             }
-            else if (input.Contains("inventory"))
+            else if (input.Contains("inventory") || input == "i")
             {
                 Console.Clear();
                 DisplayInventory(player);
